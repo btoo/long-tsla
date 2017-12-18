@@ -7,9 +7,9 @@
 
     <!-- d3 chart will get attached to this div (this.$el) -->
 
-    <button @click="renderCloud()">
+    <!-- <button @click="renderCloud()">
       click to render cloud
-    </button>
+    </button> -->
 
   </article>
 </template>

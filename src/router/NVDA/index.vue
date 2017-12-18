@@ -5,10 +5,10 @@
 <script>
   import Chart from '@/components/Chart'
   import { formatRawData } from '@/utils'
-  import rawData from './data/full'
+  import rawData from './data.json'
 
   export default {
-    name: 'TSLA',
+    name: 'NVDA',
     components: {
       Chart
     },

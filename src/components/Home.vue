@@ -8,7 +8,7 @@
     Presets:
     <ul>
       <li v-for="preset in presets">
-        <router-link to="TSLA">{{ preset }}</router-link>
+        <router-link :to="preset">{{ preset }}</router-link>
       </li>
     </ul>
 
@@ -21,7 +21,7 @@ export default {
   data () {
     return {
       presets: [
-        'TSLA'
+        'TSLA', 'NVDA'
       ]
     }
   }
