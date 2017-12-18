@@ -50,7 +50,8 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    // index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '../index.html'), // the output index.html needs to be at the root so it can be rendered for github-pages
 
     // Paths
     assetsRoot: path.resolve(__dirname, '../dist'),
