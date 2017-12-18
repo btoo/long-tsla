@@ -1,6 +1,6 @@
 import * as d3 from 'd3'
 // import rawData from '@/assets/tsla-demo-size.json' // demo-sized data from https://www.alphavantage.co/documentation/#daily
-import rawData from '@/assets/tsla-full-size.json' // full-sized obtained with api key
+import rawData from './assets/tsla-full-size.json' // full-sized obtained with api key
 
 export const metaData = rawData['Meta Data']
 
