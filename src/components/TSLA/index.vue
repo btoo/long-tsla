@@ -5,16 +5,15 @@
       {{ metaData['2. Symbol'] }}
     </h1>
 
-    <button class="update-chart">Update</button>
     <!-- d3 chart will get attached to this div (this.$el) -->
-    
+
   </div>
 </template>
 
 <script>
 // import renderChart from './chart'
 import data, { metaData } from './data'
-import ichi from './ichi'
+import cloud from './chart/cloud'
 
 // console.log(ichi)
 
@@ -22,7 +21,7 @@ export default {
   name: 'TSLA',
   mounted () {
     // renderChart(this.$el)
-    ichi(this.$el)(data)
+    cloud(this.$el)(data)
   },
   data () {
     return {
