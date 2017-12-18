@@ -14,9 +14,22 @@ import rawData from '../assets/tsla-demo-size.json' // obtained from alpha vanta
 
 const metaData = rawData['Meta Data']
 
-const data = Object.entries(rawData['Time Series (Daily)']) // may be costly on larger data sets, so find a better API provider
+const getClosePrice = datum => datum['4. close']
+const dataMap = rawData['Time Series (Daily)']
+const data = []
+let min = Number.POSITIVE_INFINITY
+let max = Number.NEGATIVE_INFINITY
 
-console.log(data)
+for (const date in dataMap) {
+  const datum = dataMap[date]
+  data.push([date, datum])
+
+  const closePrice = getClosePrice(datum)
+  if (closePrice < min) min = closePrice
+  if (closePrice > max) max = closePrice
+}
+
+console.log(data, min, max)
 
 const demoData = [99, 71, 78, 25, 36, 92]
 
@@ -25,8 +38,10 @@ export default {
   mounted () {
     const svg = d3.select(this.$el)
       .append('svg')
-      .attr('width', document.documentElement.clientWidth)
-      .attr('height', document.documentElement.clientHeight)
+      // .attr('width', document.documentElement.clientWidth)
+      // .attr('height', document.documentElement.clientHeight)
+      .attr('width', document.documentElement.clientWidth / 2)
+      .attr('height', document.documentElement.clientHeight / 2)
       .append('g')
       // .attr('transform', 'translate(0, 10)')
 
@@ -63,8 +78,18 @@ export default {
     }
   }
 
+</style>
+
+<style lang="scss" scoped>
   .tsla {
     height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+  }
+  h1 {
+    margin: 0;
   }
 </style>
