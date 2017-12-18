@@ -63,5 +63,8 @@ export default $el => data => {
     .style('text-anchor', 'end')
     .text('Ichimoku')
 
-  draw(svg, x, y, candlestick)(data)
+  // data to display initially
+  draw(svg, x, y, candlestick)(
+    data.slice(data.length - 222, data.length) // render the chart with the last 222 data points (trading days)
+  )
 }

@@ -11,38 +11,30 @@
 </template>
 
 <script>
-// import renderChart from './chart'
 import data, { metaData } from './data'
 import cloud from './chart/cloud'
-
-// console.log(ichi)
 
 export default {
   name: 'TSLA',
   mounted () {
-    // renderChart(this.$el)
     cloud(this.$el)(data)
+    console.log('in mounted', this.waza)
   },
   data () {
     return {
       msg: 'long tsla boi',
       metaData
     }
+  },
+  methods: {
+    waza () {
+      console.log('waza')
+    }
   }
-
 }
 </script>
 
 <style lang="scss">
-  // svg {
-  //   // margin: 25px;
-  //   path {
-  //     fill: none;
-  //     stroke: #76BF8A;
-  //     stroke-width: 3px;
-  //   }
-  // }
-
   body {
       font: 10px sans-serif;
   }
