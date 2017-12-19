@@ -10,17 +10,14 @@
     <vue-slider ref="slider" v-bind="sliderConfig" @callback="renderCloud">
       <template slot="tooltip" slot-scope="tooltip">
         {{ tooltip.value // wait for init
+          // ? $options.filters.formatTime(tooltip.value.date)
           ? tooltip.value.date
           : tooltip.value
         }}
       </template>
     </vue-slider>
 
-    <!-- d3 chart will get attached to this div (this.$el) -->
-
-    <!-- <button @click="renderCloud()">
-      click to render cloud
-    </button> -->
+    <!-- d3 chart will get attached to this space (this.$el) -->
 
   </article>
 </template>
@@ -59,7 +56,6 @@
     },
     methods: {
       renderCloud () {
-        console.log('rendering with', this.indexRange)
         this.cloud(this.indexRange)
       }
     },

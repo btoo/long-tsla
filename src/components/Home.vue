@@ -1,11 +1,11 @@
 <template>
   <article>
 
-    <input type="text" placeholder="Ticker" autofocus>
+    <input type="text" placeholder="search ticker" autofocus>
 
     <br><br>
 
-    Presets:
+    presets:
     <ul>
       <li v-for="preset in presets">
         <router-link :to="preset">{{ preset }}</router-link>

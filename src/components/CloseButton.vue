@@ -1,11 +1,16 @@
 <template>
-  <router-link to="/" />
+  <router-link to="/" @click="invokeCallback" />
 </template>
 
 <script>
 export default {
   name: 'CloseButton',
-  props: ['callback']
+  props: ['callback'],
+  methods: {
+    invokeCallback () {
+      if (this.callback) this.callback()
+    }
+  }
 }
 </script>
 

@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import TSLA from './TSLA'
-import NVDA from './NVDA'
 
 Vue.use(Router)
 
@@ -15,11 +13,11 @@ export default new Router({
     }, {
       path: '/tsla',
       name: 'TSLA',
-      component: TSLA
+      component: _ => import('./TSLA')
     }, {
       path: '/nvda',
       name: 'NVDA',
-      component: NVDA
+      component: _ => import('./NVDA')
     }
   ]
 })
