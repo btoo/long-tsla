@@ -1,25 +1,20 @@
 <template>
   <article>
-    
+
+    <close-button />
+
     <h1 class="symbol">
       {{ meta['2. Symbol'] }}
     </h1>
 
-    <vue-slider
-      :value="[dates[0], dates[dates.length - 1]]"
-      :width="'100%'"
-      :height="4"
-      :dotSize="14"
-      :min="1"
-      :max="100"
-      :interval="3"
-      :disabled="false"
-      :show="true"
-      :tooltip="'always'"
-      :piecewise="false"
-      :reverse="true"
-      :data="dates"
-      />
+    <vue-slider ref="slider" v-bind="sliderConfig" @callback="renderCloud">
+      <template slot="tooltip" slot-scope="tooltip">
+        {{ tooltip.value // wait for init
+          ? tooltip.value.date
+          : tooltip.value
+        }}
+      </template>
+    </vue-slider>
 
     <!-- d3 chart will get attached to this div (this.$el) -->
 
@@ -32,24 +27,47 @@
 
 <script>
   import cloud from '@/analyses/cloud'
-  import vueSlider from 'vue-slider-component'
+  import VueSlider from 'vue-slider-component'
+  import CloseButton from '@/components/CloseButton'
 
   export default {
     name: 'Chart',
-    components: { vueSlider },
+    components: { VueSlider, CloseButton },
     props: ['raw', 'meta', 'timeSeries', 'min', 'max'],
     data () {
       return {
-        dates: Object.keys(this.raw['Time Series (Daily)'])
+        sliderConfig: {
+          value: [this.timeSeries[0], this.timeSeries[this.timeSeries.length - 1]],
+          width: '88%',
+          height: 4,
+          dotSize: 14,
+          min: 1,
+          max: 100,
+          interval: 3,
+          disabled: false,
+          show: true,
+          reverse: false,
+          tooltip: 'always',
+          piecewise: false,
+          data: this.timeSeries
+        }
       }
     },
     mounted () {
-      this.cloud = cloud(this.$el)
-      this.renderCloud(this.timeSeries)
+      this.cloud = cloud(this.$el, this.timeSeries)
+      this.renderCloud()
     },
     methods: {
-      renderCloud (timeSeries) {
-        this.cloud(timeSeries)
+      renderCloud () {
+        console.log('rendering with', this.indexRange)
+        this.cloud(this.indexRange)
+      }
+    },
+    computed: {
+      indexRange: {
+        get () {
+          return this.$refs.slider.getIndex()
+        }
       }
     }
   }

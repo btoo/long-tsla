@@ -10,7 +10,7 @@ const margin = {
   left: 50
 }
 
-export default $el => data => {
+export default ($el, data) => {
   const width = 960 - margin.left - margin.right
   const height = 500 - margin.top - margin.bottom
 
@@ -63,8 +63,10 @@ export default $el => data => {
     .style('text-anchor', 'end')
     .text('Ichimoku')
 
-  // data to display initially
-  draw(svg, x, y, candlestick)(
-    data.slice(data.length - 222, data.length) // render the chart with the last 222 data points (trading days)
-  )
+  return (indexRange = [data.length - 222, data.length]) => {
+    // data to display initially
+    draw({svg, x, y, candlestick})(
+      data.slice(...indexRange) // render the chart with the last 222 data points (trading days)
+    )
+  }
 }
