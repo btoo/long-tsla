@@ -3,10 +3,10 @@
 
     <close-button />
 
-    <template v-if="formattedData">
+    <template v-if="formatted">
 
       <h1 class="symbol">
-        {{ meta['2. Symbol'] }}
+        {{ formatted.meta['2. Symbol'] }}
       </h1>
 
       <vue-slider ref="slider" v-bind="sliderConfig" @callback="renderCloud">
@@ -48,33 +48,39 @@
     data () {
       return this.raw
         ? generateData(this.raw)
-        : { formattedData: null }
+        : { formatted: null }
     },
     created () {
-      if (!this.formattedData) {
-        console.log('fetching')
-        this.fetchSymbolHistory(this.symbol, raw => {
-          console.log('got em', raw)
-        })
+      if (!this.formatted) {
+        this.fetchSymbolHistory(this.symbol, raw => this.setData(raw))
       }
     },
-    mounted () {
-      if (this.timeSeries) {
-        console.log(this)
-        this.cloud = cloud(this.$el, this.timeSeries)
-        this.renderCloud()
-        NProgress.done()
-      }
-    },
+    mounted () { this.renderCloud() },
     methods: {
+      setCloudRenderer () {
+        if (this.formatted && this.formatted.timeSeries && this.formatted.timeSeries.length) {
+          this.cloud = cloud(this.$el, this.formatted.timeSeries)
+          return true
+        } else {
+          return false
+        }
+      },
       fetchSymbolHistory (symbol, callback) {
         return fetchSymbolHistory(globalData.apiKey)(symbol, callback)
       },
-      setData () {
+      setData (raw) {
+        const generatedData = generateData(raw)
+        for (const key in generatedData) {
+          this[key] = generatedData[key]
+        }
 
+        this.renderCloud()
       },
       renderCloud () {
+        if (!this.cloud) this.setCloudRenderer()
+
         this.cloud(this.indexRange)
+        NProgress.done()
       }
     },
     computed: {
@@ -87,82 +93,6 @@
   }
 </script>
 
-<style lang="scss">
-
-  text {
-    fill: #000;
-  }
-
-  .update-chart {
-    position: absolute;
-    right: 20px;
-    top: 440px;
-    display: none;
-  }
-
-  path {
-    &.candle.body {
-      stroke-width: 0;
-    }
-    &.candle.up {
-      fill: #00AA00;
-      stroke: #00AA00;
-    }
-    &.candle.down {
-      fill: #FF0000;
-      stroke: #FF0000;
-    }
-  }
-
-  .ichimoku {
-
-    path {
-      fill: none;
-      stroke-width: 0.8;
-      stroke: #000000;
-
-      &.chikouspan {
-        stroke: #BF5FFF;
-      }
-
-      &.tenkansen {
-        stroke: #0033FF;
-      }
-
-      &.kijunsen {
-        stroke: #FBB117;
-      }
-
-      &.kumo {
-        opacity: 0.1;
-      }
-
-      &.kumo.up {
-        fill: #00AA00;
-      }
-
-      &.kumo.down {
-        fill: #FF0000;
-      }
-
-      &.senkouspana {
-        stroke: #006600;
-      }
-
-      &.senkouspanb {
-        stroke: #FF0000;
-      }
-
-    }
-
-  }
-
-  .vue-slider-tooltip-wrap {
-    width: 100px;
-  }
-
-</style>
-
 <style lang="scss" scoped>
   article {
     height: 100%;
@@ -173,3 +103,5 @@
     align-items: center;
   }
 </style>
+
+<style lang="scss" src="./index.scss" />
