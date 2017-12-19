@@ -2,8 +2,24 @@
   <article>
     
     <h1 class="symbol">
-      {{ metaData['2. Symbol'] }}
+      {{ meta['2. Symbol'] }}
     </h1>
+
+    <vue-slider
+      :value="[dates[0], dates[dates.length - 1]]"
+      :width="'100%'"
+      :height="4"
+      :dotSize="14"
+      :min="1"
+      :max="100"
+      :interval="3"
+      :disabled="false"
+      :show="true"
+      :tooltip="'always'"
+      :piecewise="false"
+      :reverse="true"
+      :data="dates"
+      />
 
     <!-- d3 chart will get attached to this div (this.$el) -->
 
@@ -16,10 +32,17 @@
 
 <script>
   import cloud from '@/analyses/cloud'
+  import vueSlider from 'vue-slider-component'
 
   export default {
     name: 'Chart',
-    props: ['metaData', 'timeSeries'],
+    components: { vueSlider },
+    props: ['raw', 'meta', 'timeSeries', 'min', 'max'],
+    data () {
+      return {
+        dates: Object.keys(this.raw['Time Series (Daily)'])
+      }
+    },
     mounted () {
       this.cloud = cloud(this.$el)
       this.renderCloud(this.timeSeries)

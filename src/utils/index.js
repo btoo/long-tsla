@@ -1,9 +1,9 @@
 import * as d3 from 'd3'
 
-export const formatRawData = rawData => {
-  const metaData = rawData['Meta Data']
+export const formatRawData = raw => {
+  const meta = raw['Meta Data']
 
-  const timeSeriesMap = rawData['Time Series (Daily)']
+  const timeSeriesMap = raw['Time Series (Daily)']
   const timeSeries = []
   let min = Number.POSITIVE_INFINITY
   let max = Number.NEGATIVE_INFINITY
@@ -27,5 +27,5 @@ export const formatRawData = rawData => {
     if (d.close > max) max = d.close
   }
 
-  return { metaData, timeSeries, min, max }
+  return { raw, meta, timeSeries, min, max }
 }

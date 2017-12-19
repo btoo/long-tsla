@@ -1,11 +1,11 @@
 <template>
-  <Chart :time-series="timeSeries" :meta-data="metaData" />
+  <Chart v-bind="formattedData" />
 </template>
 
 <script>
   import Chart from '@/components/Chart'
   import { formatRawData } from '@/utils'
-  import rawData from './data/full'
+  import raw from './data/full'
 
   export default {
     name: 'TSLA',
@@ -14,7 +14,7 @@
     },
     data () {
       return {
-        ...formatRawData(rawData)
+        formattedData: formatRawData(raw)
       }
     }
   }

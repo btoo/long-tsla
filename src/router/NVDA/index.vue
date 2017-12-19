@@ -1,11 +1,11 @@
 <template>
-  <Chart :time-series="timeSeries" :meta-data="metaData" />
+  <Chart v-bind="formattedData" />
 </template>
 
 <script>
   import Chart from '@/components/Chart'
   import { formatRawData } from '@/utils'
-  import rawData from './data.json'
+  import raw from './data.json'
 
   export default {
     name: 'NVDA',
@@ -14,7 +14,7 @@
     },
     data () {
       return {
-        ...formatRawData(rawData)
+        formattedData: formatRawData(raw)
       }
     }
   }
