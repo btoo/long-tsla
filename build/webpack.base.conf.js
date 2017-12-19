@@ -81,7 +81,8 @@ module.exports = {
   },
   plugins: [
     new ProvidePlugin({
-      'window.d3': 'd3'
+      'window.d3': 'd3',
+      'window.NProgress': 'NProgress'
     })
   ],
   node: {

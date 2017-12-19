@@ -1,16 +1,18 @@
 <template>
-  <div id="app">
+  <main id="app">
     <router-view/>
-  </div>
+  </main>
 </template>
 
 <script>
-export default {
-  name: 'app'
-}
+  export default {
+    name: 'app'
+  }
 </script>
 
-<style>
+<style lang="scss">
+  $green: #42b983;
+
   html, body {
     margin: 0;
     font-size: 1rem;
@@ -29,10 +31,11 @@ export default {
     margin: 0 10px;
   }
   a {
-    color: #42b983;
+    color: $green;
   }
 
   input {
+    outline-color: $green;
     font-size: 1rem;
   }
 
@@ -42,8 +45,14 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    /* margin-top: 60px; */
     height: 100vh;
+  }
+
+  #nprogress {
+    .bar {
+      background: $green;
+      height: 3px;
+    }
   }
 
 </style>
