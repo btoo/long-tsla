@@ -15,10 +15,15 @@ Vue.filter('formatTime', time => {
   return time.slice(4, 15)
 })
 
+export const globalData = {
+  apiKey: ''
+}
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  data: globalData
 })

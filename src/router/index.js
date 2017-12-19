@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import NProgress from 'NProgress'
+import Chart from '@/components/Chart'
+// import { fetchSymbolHistory } from '@/utils'
+// import { globalData } from '@/main'
 
 Vue.use(Router)
 
@@ -19,24 +22,39 @@ const router = new Router({
       path: '/nvda',
       name: 'NVDA',
       component: _ => import('./NVDA')
+    }, {
+      path: '/:symbol',
+      component: Chart,
+      props: route => ({ symbol: route.params.symbol })
     }
   ]
 })
 
 NProgress.configure({
-  showSpinner: false
+  showSpinner: true
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.path !== '/') {
-    NProgress.start()
-    NProgress.set(0.1)
-  }
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   if (to.path !== '/') {
+//     NProgress.start()
+//     NProgress.set(0.1)
+//   }
+//   next()
+// })
 
-router.afterEach(() => {
-  setTimeout(() => NProgress.done(), 500)
-})
+// router.afterEach(() => {
+//   setTimeout(() => NProgress.done(), 500)
+// })
 
 export default router
+
+// export function beforeRouteUpdate (to, from, next) {
+//   console.log('beforing', this)
+//   if (to.path !== '/') {
+//     NProgress.start()
+//     NProgress.set(0.1)
+//   }
+//   next(vm => {
+//     console.log('veeem', vm)
+//   })
+// }

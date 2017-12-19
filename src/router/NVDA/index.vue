@@ -1,10 +1,9 @@
 <template>
-  <Chart v-bind="formattedData" />
+  <Chart :raw="raw" />
 </template>
 
 <script>
   import Chart from '@/components/Chart'
-  import { formatRawData } from '@/utils'
   import raw from './data.json'
 
   export default {
@@ -14,7 +13,7 @@
     },
     data () {
       return {
-        formattedData: formatRawData(raw)
+        raw
       }
     }
   }

@@ -12,6 +12,8 @@
 
 <style lang="scss">
   $green: #42b983;
+  $gray: #2c3e50;
+  $font: 'Avenir', Helvetica, Arial, sans-serif;
 
   html, body {
     margin: 0;
@@ -37,14 +39,16 @@
   input {
     outline-color: $green;
     font-size: 1rem;
+    color: $gray;
+    font-family: $font;
   }
 
   #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    font-family: $font;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
+    color: $gray;
     height: 100vh;
   }
 
@@ -52,6 +56,10 @@
     .bar {
       background: $green;
       height: 3px;
+    }
+    .spinner-icon {
+      border-top-color: $green;
+      border-left-color: $green;
     }
   }
 

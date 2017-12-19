@@ -3,21 +3,31 @@
 
     <close-button />
 
-    <h1 class="symbol">
-      {{ meta['2. Symbol'] }}
-    </h1>
+    <template v-if="formattedData">
 
-    <vue-slider ref="slider" v-bind="sliderConfig" @callback="renderCloud">
-      <template slot="tooltip" slot-scope="tooltip">
-        {{ tooltip.value // wait for init
-          ? $options.filters.formatTime(tooltip.value.date)
-          // ? tooltip.value.date
-          : tooltip.value
-        }}
-      </template>
-    </vue-slider>
+      <h1 class="symbol">
+        {{ meta['2. Symbol'] }}
+      </h1>
 
-    <!-- d3 chart will get attached to this space (this.$el) -->
+      <vue-slider ref="slider" v-bind="sliderConfig" @callback="renderCloud">
+        <template slot="tooltip" slot-scope="tooltip">
+          {{ tooltip.value // wait for init
+            ? $options.filters.formatTime(tooltip.value.date)
+            // ? tooltip.value.date
+            : tooltip.value
+          }}
+        </template>
+      </vue-slider>
+
+      <!-- d3 chart will get attached to this space (this.$el) -->
+
+    </template>
+
+    <template v-else-if="symbol">
+      <h1 class="symbol">
+        {{ symbol }}
+      </h1>
+    </template>
 
   </article>
 </template>
@@ -26,35 +36,43 @@
   import cloud from '@/analyses/cloud'
   import VueSlider from 'vue-slider-component'
   import CloseButton from '@/components/CloseButton'
+  import NProgress from 'NProgress'
+  import generateData from './generate-data'
+  import { fetchSymbolHistory } from '@/utils'
+  import { globalData } from '@/main'
 
   export default {
     name: 'Chart',
     components: { VueSlider, CloseButton },
-    props: ['raw', 'meta', 'timeSeries', 'min', 'max'],
+    props: ['raw', 'symbol'],
     data () {
-      return {
-        sliderConfig: {
-          value: [this.timeSeries[0], this.timeSeries[this.timeSeries.length - 1]],
-          width: '88%',
-          height: 4,
-          dotSize: 14,
-          min: 1,
-          max: 100,
-          interval: 3,
-          disabled: false,
-          show: true,
-          reverse: false,
-          tooltip: 'always',
-          piecewise: false,
-          data: this.timeSeries
-        }
+      return this.raw
+        ? generateData(this.raw)
+        : { formattedData: null }
+    },
+    created () {
+      if (!this.formattedData) {
+        console.log('fetching')
+        this.fetchSymbolHistory(this.symbol, raw => {
+          console.log('got em', raw)
+        })
       }
     },
     mounted () {
-      this.cloud = cloud(this.$el, this.timeSeries)
-      this.renderCloud()
+      if (this.timeSeries) {
+        console.log(this)
+        this.cloud = cloud(this.$el, this.timeSeries)
+        this.renderCloud()
+        NProgress.done()
+      }
     },
     methods: {
+      fetchSymbolHistory (symbol, callback) {
+        return fetchSymbolHistory(globalData.apiKey)(symbol, callback)
+      },
+      setData () {
+
+      },
       renderCloud () {
         this.cloud(this.indexRange)
       }
