@@ -10,8 +10,8 @@ const margin = {
   left: 50
 }
 
-export default ($el, data) => {
-  const width = 960 - margin.left - margin.right
+export default (el, data) => { // this function initalizes the chart and only executes once
+  const width = Math.min(960, document.documentElement.clientWidth * 0.88) - margin.left - margin.right
   const height = 500 - margin.top - margin.bottom
 
   const x = techan.scale.financetime()
@@ -24,7 +24,7 @@ export default ($el, data) => {
     .xScale(x)
     .yScale(y)
 
-  const svg = d3.select($el).append('svg')
+  const svg = d3.select(el).append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
@@ -63,7 +63,7 @@ export default ($el, data) => {
     .style('text-anchor', 'end')
     .text('Ichimoku')
 
-  return (indexRange = [data.length - 222, data.length]) => {
+  return (indexRange = [data.length - 222, data.length]) => { // this function updates the chart and gets executed multiple times
     // data to display initially
     draw({svg, x, y, candlestick})(
       data.slice(...indexRange) // render the chart with the last 222 data points (trading days)

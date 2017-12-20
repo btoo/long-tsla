@@ -6,7 +6,7 @@ export default raw => {
     formatted,
     sliderConfig: {
       value: [formatted.timeSeries[0], formatted.timeSeries[formatted.timeSeries.length - 1]],
-      width: '88%',
+      width: `${Math.min(960, document.documentElement.clientWidth * 0.88)}px`,
       height: 4,
       dotSize: 14,
       min: 1,

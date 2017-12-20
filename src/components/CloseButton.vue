@@ -16,7 +16,7 @@ export default {
 
 <style lang="scss" scoped>
   a {
-    color: #000;
+    color: #2c3e50;
     position: relative;
     margin-top: 0;
     margin-left: 0;

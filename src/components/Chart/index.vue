@@ -19,8 +19,6 @@
         </template>
       </vue-slider>
 
-      <!-- d3 chart will get attached to this space (this.$el) -->
-
     </template>
 
     <template v-else-if="symbol">
@@ -28,6 +26,9 @@
         {{ symbol }}
       </h1>
     </template>
+
+    <!-- d3 chart will get attached to this figure -->
+    <figure />
 
   </article>
 </template>
@@ -50,19 +51,18 @@
         ? generateData(this.raw)
         : { formatted: null }
     },
-    created () {
+    created () { // fetch the raw data if you werent provided with it already
       if (!this.formatted) {
         this.fetchSymbolHistory(this.symbol, raw => this.setData(raw))
       }
     },
-    mounted () { this.renderCloud() },
+    mounted () { // now that the DOM element exists, you can use d3 to render the chart
+      this.renderCloud()
+    },
     methods: {
       setCloudRenderer () {
         if (this.formatted && this.formatted.timeSeries && this.formatted.timeSeries.length) {
-          this.cloud = cloud(this.$el, this.formatted.timeSeries)
-          return true
-        } else {
-          return false
+          this.cloud = cloud(this.$el.querySelector('figure'), this.formatted.timeSeries)
         }
       },
       fetchSymbolHistory (symbol, callback) {
@@ -101,6 +101,10 @@
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+  }
+
+  figure {
+    height: 500px;
   }
 </style>
 
