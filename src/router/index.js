@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import NProgress from 'NProgress'
+import NProgress from 'nprogress'
 import Chart from '@/components/Chart'
 
 Vue.use(Router)

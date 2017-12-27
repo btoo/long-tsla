@@ -37,7 +37,7 @@
   import cloud from '@/analyses/cloud'
   import VueSlider from 'vue-slider-component'
   import CloseButton from '@/components/CloseButton'
-  import NProgress from 'NProgress'
+  import NProgress from 'nprogress'
   import generateData from './generate-data'
   import { fetchSymbolHistory } from '@/utils'
   import { globalData } from '@/main'
